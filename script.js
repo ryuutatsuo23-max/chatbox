@@ -1,5 +1,5 @@
 // Replace 'YourChannelName' with your actual Twitch username
-const CHANNEL_NAME = 'drago_horse';
+const CHANNEL_NAME = 'arcticfoxtato';
 
 ComfyJS.onChat = (user, message, flags, self, extra) => {
   const chatContainer = document.getElementById('chat-container');
