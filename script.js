@@ -7,6 +7,7 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const msgWrapper = document.createElement('div');
   msgWrapper.classList.add('message-wrapper');
 
+  // Badge/Icon Logic
   let iconPath = 'IconReg.png';
   if (flags.broadcaster) iconPath = 'IconStreamer.png';
   else if (flags.mod) iconPath = 'IconMod.png';
@@ -42,9 +43,7 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     emotePositions.sort((a, b) => b.start - a.start);
 
     emotePositions.forEach(emote => {
-      // THE DISCOVERY: Using 'emoticons' instead of 'emotes'
       const url = `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/2.0`;
-      
       const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
@@ -61,6 +60,7 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   msgWrapper.appendChild(contentDiv);
   chatContainer.appendChild(msgWrapper);
 
+  // Keep last 8 messages
   if (chatContainer.children.length > 8) {
     chatContainer.removeChild(chatContainer.firstChild);
   }
