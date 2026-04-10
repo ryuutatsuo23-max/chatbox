@@ -7,7 +7,6 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const msgWrapper = document.createElement('div');
   msgWrapper.classList.add('message-wrapper');
 
-  // Icon Logic
   let iconPath = 'IconReg.png';
   if (flags.broadcaster) iconPath = 'IconStreamer.png';
   else if (flags.mod) iconPath = 'IconMod.png';
@@ -29,7 +28,6 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const textSpan = document.createElement('span');
   textSpan.classList.add('message-text');
 
-  // NEW ROBUST EMOTE STRATEGY
   let messageWithEmotes = message;
   
   if (extra.messageEmotes) {
@@ -41,13 +39,15 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
       });
     });
 
-    // Sort backwards
     emotePositions.sort((a, b) => b.start - a.start);
 
     emotePositions.forEach(emote => {
-      // Trying the 7TV/Twitch Proxy URL style which is more reliable for overlays
+      // THE FIX: Using the v2/default/dark/2.0 path which is the current 
+      // standard for both global (like LUL) and channel emotes.
       const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/2.0`;
-      const imgTag = `<img src="${url}" class="chat-emote" onerror="this.src='https://static-cdn.jtvnw.net/emotes/v1/${emote.id}/1.0'; this.onerror=null;">`;
+      
+      // Added an 'onerror' fallback that tries a different scale if 2.0 fails
+      const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer" onerror="this.src='https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0'; this.onerror=null;">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
       const after = messageWithEmotes.substring(emote.end + 1);
@@ -63,7 +63,6 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   msgWrapper.appendChild(contentDiv);
   chatContainer.appendChild(msgWrapper);
 
-  // Auto-scroll/Cleanup
   if (chatContainer.children.length > 8) {
     chatContainer.removeChild(chatContainer.firstChild);
   }
