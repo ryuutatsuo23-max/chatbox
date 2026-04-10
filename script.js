@@ -41,17 +41,17 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
 
     emotePositions.sort((a, b) => b.start - a.start);
 
-    emotePositions.forEach(emote => {
-      // THE FIX: We use the v1 URL because your testing showed v2 is 404ing
-      // v1 is the most compatible across all Twitch emote types
-      const url = `https://static-cdn.jtvnw.net/emotes/v1/${emote.id}/1.0`;
+      emotePositions.forEach(emote => {
+      // THE FIX: Standardizing on the v2 default path
+      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
+      
+      // We keep referrerpolicy="no-referrer" for GitHub compatibility
       const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
       const after = messageWithEmotes.substring(emote.end + 1);
       messageWithEmotes = before + imgTag + after;
     });
-  }
 
   textSpan.innerHTML = messageWithEmotes;
 
