@@ -42,11 +42,10 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     emotePositions.sort((a, b) => b.start - a.start);
 
     emotePositions.forEach(emote => {
-      // THE FIX: Using the absolute raw template URL. 
-      // This bypasses the structured 'v2' folders that are 404ing for you.
-      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/static/light/1.0`;
+      // THE DISCOVERY: Using 'emoticons' instead of 'emotes'
+      const url = `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/2.0`;
       
-      const imgTag = `<img src="${url}" class="chat-emote" crossorigin="anonymous">`;
+      const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
       const after = messageWithEmotes.substring(emote.end + 1);
