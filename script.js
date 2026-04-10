@@ -42,17 +42,11 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     emotePositions.sort((a, b) => b.start - a.start);
 
     emotePositions.forEach(emote => {
-      // PRIMARY URL (v2 structured)
-      const primaryUrl = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
-      // FALLBACK 1 (v1 legacy)
-      const fallback1 = `https://static-cdn.jtvnw.net/emotes/v1/${emote.id}/1.0`;
+      // THE FIX: Using the absolute raw template URL. 
+      // This bypasses the structured 'v2' folders that are 404ing for you.
+      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/static/light/1.0`;
       
-      // The onerror logic tries the fallback if the primary fails. 
-      // It also adds a generic Twitch icon as a last resort so it's never an empty box.
-      const imgTag = `<img src="${primaryUrl}" 
-                           class="chat-emote" 
-                           referrerpolicy="no-referrer" 
-                           onerror="this.onerror=null; this.src='${fallback1}';">`;
+      const imgTag = `<img src="${url}" class="chat-emote" crossorigin="anonymous">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
       const after = messageWithEmotes.substring(emote.end + 1);

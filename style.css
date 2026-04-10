@@ -19,7 +19,8 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    padding: 15px 45px 15px 50px; /* Precise padding for the art assets */
+    /* Adjusted padding to fit the box borders better */
+    padding: 10px 30px; 
     
     border-style: solid;
     border-width: 25px; 
@@ -32,36 +33,42 @@ body {
     word-wrap: break-word; 
     overflow-wrap: break-word;
     box-sizing: border-box; 
-    
     animation: fadeIn 0.4s ease-out forwards;
 }
 
 .user-icon {
     width: 35px;
     height: 35px;
-    margin-right: 15px;
+    margin-right: 10px;
     flex-shrink: 0;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    /* Pushes text 15px away from the icon so it doesn't overlap the star art */
+    margin-left: 15px; 
 }
 
 .user-name {
     font-size: 1em;
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 5px; /* Added spacing between name and message */
+    margin-bottom: 2px;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 
 .message-text {
     color: #ffffff;
     font-size: 1.1em;
-    line-height: 1.4;
+    line-height: 1.2;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
 .chat-emote {
-    height: 1.4em; 
+    height: 1.3em; 
     vertical-align: middle;
-    margin: 0 4px;
+    margin: 0 3px;
     display: inline-block;
 }
 
