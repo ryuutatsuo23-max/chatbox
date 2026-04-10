@@ -2,10 +2,12 @@ const CHANNEL_NAME = 'arcticfoxtato';
 
 ComfyJS.onChat = (user, message, flags, self, extra) => {
   const chatContainer = document.getElementById('chat-container');
+  if (!chatContainer) return;
 
   const msgWrapper = document.createElement('div');
   msgWrapper.classList.add('message-wrapper');
 
+  // Icon Logic
   let iconPath = 'IconReg.png';
   if (flags.broadcaster) iconPath = 'IconStreamer.png';
   else if (flags.mod) iconPath = 'IconMod.png';
@@ -27,11 +29,11 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const textSpan = document.createElement('span');
   textSpan.classList.add('message-text');
 
+  // NEW ROBUST EMOTE STRATEGY
   let messageWithEmotes = message;
   
   if (extra.messageEmotes) {
     const emotePositions = [];
-    
     Object.keys(extra.messageEmotes).forEach(id => {
       extra.messageEmotes[id].forEach(pos => {
         const [start, end] = pos.split('-').map(Number);
@@ -39,19 +41,19 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
       });
     });
 
+    // Sort backwards
     emotePositions.sort((a, b) => b.start - a.start);
 
-      emotePositions.forEach(emote => {
-      // THE FIX: Standardizing on the v2 default path
-      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
-      
-      // We keep referrerpolicy="no-referrer" for GitHub compatibility
-      const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer">`;
+    emotePositions.forEach(emote => {
+      // Trying the 7TV/Twitch Proxy URL style which is more reliable for overlays
+      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/2.0`;
+      const imgTag = `<img src="${url}" class="chat-emote" onerror="this.src='https://static-cdn.jtvnw.net/emotes/v1/${emote.id}/1.0'; this.onerror=null;">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
       const after = messageWithEmotes.substring(emote.end + 1);
       messageWithEmotes = before + imgTag + after;
     });
+  }
 
   textSpan.innerHTML = messageWithEmotes;
 
@@ -61,7 +63,8 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   msgWrapper.appendChild(contentDiv);
   chatContainer.appendChild(msgWrapper);
 
-  if (chatContainer.children.length > 10) {
+  // Auto-scroll/Cleanup
+  if (chatContainer.children.length > 8) {
     chatContainer.removeChild(chatContainer.firstChild);
   }
 };
