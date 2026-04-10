@@ -27,7 +27,6 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const textSpan = document.createElement('span');
   textSpan.classList.add('message-text');
 
-  // RELIABLE EMOTE HANDLER
   let messageWithEmotes = message;
   
   if (extra.messageEmotes) {
@@ -40,19 +39,17 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
       });
     });
 
-    // Sort from end to start to avoid breaking string indexes
     emotePositions.sort((a, b) => b.start - a.start);
 
     emotePositions.forEach(emote => {
-      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
-      const imgTag = `<img src="${url}" class="chat-emote">`;
+      // THE FIX: We use the v1 URL because your testing showed v2 is 404ing
+      // v1 is the most compatible across all Twitch emote types
+      const url = `https://static-cdn.jtvnw.net/emotes/v1/${emote.id}/1.0`;
+      const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer">`;
       
-      // Safety check: only replace if the indexes are valid
-      if (emote.start >= 0 && emote.end < messageWithEmotes.length) {
-          const before = messageWithEmotes.substring(0, emote.start);
-          const after = messageWithEmotes.substring(emote.end + 1);
-          messageWithEmotes = before + imgTag + after;
-      }
+      const before = messageWithEmotes.substring(0, emote.start);
+      const after = messageWithEmotes.substring(emote.end + 1);
+      messageWithEmotes = before + imgTag + after;
     });
   }
 
