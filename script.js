@@ -7,7 +7,6 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const msgWrapper = document.createElement('div');
   msgWrapper.classList.add('message-wrapper');
 
-  // Icon Logic
   let iconPath = 'IconReg.png';
   if (flags.broadcaster) iconPath = 'IconStreamer.png';
   else if (flags.mod) iconPath = 'IconMod.png';
@@ -43,12 +42,17 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     emotePositions.sort((a, b) => b.start - a.start);
 
     emotePositions.forEach(emote => {
-      // THE FIX: We use the Twitch API "Template" URL
-      // This is the most current way to ensure global emotes like LUL don't 404
-      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
+      // PRIMARY URL (v2 structured)
+      const primaryUrl = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
+      // FALLBACK 1 (v1 legacy)
+      const fallback1 = `https://static-cdn.jtvnw.net/emotes/v1/${emote.id}/1.0`;
       
-      // Safety net: if the v2 URL fails, we use this standard alt
-      const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer" crossorigin="anonymous">`;
+      // The onerror logic tries the fallback if the primary fails. 
+      // It also adds a generic Twitch icon as a last resort so it's never an empty box.
+      const imgTag = `<img src="${primaryUrl}" 
+                           class="chat-emote" 
+                           referrerpolicy="no-referrer" 
+                           onerror="this.onerror=null; this.src='${fallback1}';">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
       const after = messageWithEmotes.substring(emote.end + 1);

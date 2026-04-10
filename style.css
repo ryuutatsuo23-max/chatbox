@@ -19,8 +19,7 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    /* This padding is specially tuned for her moon icon asset */
-    padding: 15px 45px 15px 50px; 
+    padding: 15px 45px 15px 50px; /* Precise padding for the art assets */
     
     border-style: solid;
     border-width: 25px; 
@@ -48,7 +47,7 @@ body {
     font-size: 1em;
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 5px; /* Added spacing between name and message */
     text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 
@@ -60,7 +59,7 @@ body {
 }
 
 .chat-emote {
-    height: 1.5em; /* Slightly larger makes them much easier to see on stream */
+    height: 1.4em; 
     vertical-align: middle;
     margin: 0 4px;
     display: inline-block;
