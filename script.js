@@ -28,7 +28,6 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const textSpan = document.createElement('span');
   textSpan.classList.add('message-text');
 
-// NEW ROBUST EMOTE HANDLER
   let messageWithEmotes = message;
   
   if (extra.messageEmotes) {
@@ -46,9 +45,9 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     emotePositions.sort((a, b) => b.start - a.start);
 
     emotePositions.forEach(emote => {
-      // We use the 'static-cdn' but add 'no-referrer' to bypass security blocks
-      const url = `https://static-cdn.jtvnw.net/emotes/v1/${emote.id}/1.0`;
-      const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer">`;
+      // Switched to v2 standard URL and removed restrictive attributes
+      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
+      const imgTag = `<img src="${url}" class="chat-emote">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
       const after = messageWithEmotes.substring(emote.end + 1);
