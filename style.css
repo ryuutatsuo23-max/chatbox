@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 20px;
     font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
 }
 
 #chat-container {
@@ -18,15 +19,11 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    
-    /* Increased padding to 45px to clear the artwork elements */
     padding: 10px 45px; 
     
     border-style: solid;
     border-width: 25px; 
     border-image-source: url('MessageBoxBlank.png');
-    
-    /* Increased slice to 40 for better corner protection */
     border-image-slice: 40 fill; 
     border-image-repeat: stretch;
 
@@ -35,7 +32,6 @@ body {
     word-wrap: break-word; 
     overflow-wrap: break-word;
     box-sizing: border-box; 
-    
     animation: fadeIn 0.4s ease-out forwards;
 }
 
@@ -44,7 +40,6 @@ body {
     height: 38px;
     margin-right: 15px;
     flex-shrink: 0;
-    filter: drop-shadow(0 0 5px rgba(180, 150, 255, 0.5));
 }
 
 .message-content {
@@ -64,13 +59,12 @@ body {
     font-size: 1.05em;
     line-height: 1.4;      
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    word-break: break-word;
 }
 
 .chat-emote {
-    height: 1.2em; 
+    height: 1.25em; 
     vertical-align: middle;
-    margin: 0 2px;
+    margin: 0 3px;
     display: inline-block;
 }
 
