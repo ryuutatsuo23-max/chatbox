@@ -17,8 +17,8 @@ body {
 .message-wrapper {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
-    padding: 10px 25px; /* Adjusted padding */
+    margin-bottom: 12px;
+    padding: 8px 18px; /* Slightly tighter padding for better centering */
     
     border-style: solid;
     border-width: 25px; 
@@ -27,10 +27,10 @@ body {
     border-image-repeat: stretch;
 
     width: fit-content;
-    max-width: 90%; /* Increased width slightly */
-    word-wrap: break-word; /* Crucial for long words/links */
+    max-width: 450px;      /* Standard width for most stream layouts */
+    word-wrap: break-word; 
     overflow-wrap: break-word;
-    box-sizing: border-box; /* Ensures padding stays inside the box */
+    box-sizing: border-box; 
     
     animation: fadeIn 0.4s ease-out forwards;
 }
@@ -57,17 +57,17 @@ body {
 
 .message-text {
     color: #ffffff;
-    font-size: 1.1em;
+    font-size: 1.05em;
+    line-height: 1.4;      /* Gives the text breathing room if it wraps */
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    word-break: break-word; /* Forces the text to wrap instead of stretching the box off-screen */
-    white-space: pre-wrap;  /* Keeps spaces but wraps lines */
+    word-break: break-word;
 }
 
-/* Styling specifically for Twitch emotes */
+/* Updated Emote CSS */
 .chat-emote {
-    height: 1.4em; 
+    height: 1.2em; 
     vertical-align: middle;
-    margin: 0 3px;
+    margin: 0 2px;
     display: inline-block;
 }
 

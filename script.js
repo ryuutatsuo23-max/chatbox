@@ -28,15 +28,13 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const textSpan = document.createElement('span');
   textSpan.classList.add('message-text');
 
-  // ROBUST EMOTE HANDLER
+// NEW ROBUST EMOTE HANDLER
   let messageWithEmotes = message;
   
   if (extra.messageEmotes) {
-    // Get all emote IDs used in this message
     const emotes = extra.messageEmotes;
-    
-    // We sort the positions from back to front so we don't mess up the string indexes
     const emotePositions = [];
+    
     Object.keys(emotes).forEach(id => {
       emotes[id].forEach(pos => {
         const [start, end] = pos.split('-').map(Number);
@@ -44,12 +42,13 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
       });
     });
 
+    // Sort backwards so we don't break the string indexes
     emotePositions.sort((a, b) => b.start - a.start);
 
-    // Replace text with <img> tags
     emotePositions.forEach(emote => {
-      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
-      const imgTag = `<img src="${url}" class="chat-emote" style="vertical-align: middle; height: 1.2em; margin: 0 2px;">`;
+      // We use the 'static-cdn' but add 'no-referrer' to bypass security blocks
+      const url = `https://static-cdn.jtvnw.net/emotes/v1/${emote.id}/1.0`;
+      const imgTag = `<img src="${url}" class="chat-emote" referrerpolicy="no-referrer">`;
       
       const before = messageWithEmotes.substring(0, emote.start);
       const after = messageWithEmotes.substring(emote.end + 1);
