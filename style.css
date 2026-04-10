@@ -18,23 +18,19 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    padding: 15px 25px;
+    padding: 10px 25px; /* Adjusted padding */
     
-    /* The Magic: Border Image */
     border-style: solid;
-    border-width: 25px; /* Adjust this to change the thickness of the frame */
+    border-width: 25px; 
     border-image-source: url('MessageBoxBlank.png');
-    
-    /* '30' tells CSS to slice 30 pixels from the top, right, bottom, and left.
-       'fill' ensures the blue center of her art stays as the background.
-    */
     border-image-slice: 30 fill; 
-    
-    /* 'stretch' or 'repeat' prevents the edge lines from looking weird */
     border-image-repeat: stretch;
 
-    width: fit-content; /* This makes the box only as wide as the message! */
-    max-width: 80%;     /* Prevents it from going off-screen */
+    width: fit-content;
+    max-width: 90%; /* Increased width slightly */
+    word-wrap: break-word; /* Crucial for long words/links */
+    overflow-wrap: break-word;
+    box-sizing: border-box; /* Ensures padding stays inside the box */
     
     animation: fadeIn 0.4s ease-out forwards;
 }
@@ -63,6 +59,8 @@ body {
     color: #ffffff;
     font-size: 1.1em;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    word-break: break-word; /* Forces the text to wrap instead of stretching the box off-screen */
+    white-space: pre-wrap;  /* Keeps spaces but wraps lines */
 }
 
 /* Styling specifically for Twitch emotes */

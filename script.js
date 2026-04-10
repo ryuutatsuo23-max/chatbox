@@ -28,27 +28,36 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
   const textSpan = document.createElement('span');
   textSpan.classList.add('message-text');
 
-// Manual Emote Handling with V2 links and Cross-Origin support
-  let formattedMessage = message;
+  // ROBUST EMOTE HANDLER
+  let messageWithEmotes = message;
+  
   if (extra.messageEmotes) {
-    const emoteIds = Object.keys(extra.messageEmotes);
-    emoteIds.forEach(id => {
-      const positions = extra.messageEmotes[id];
-      const position = positions[0].split('-');
-      const start = parseInt(position[0]);
-      const end = parseInt(position[1]);
-      const emoteName = message.substring(start, end + 1);
+    // Get all emote IDs used in this message
+    const emotes = extra.messageEmotes;
+    
+    // We sort the positions from back to front so we don't mess up the string indexes
+    const emotePositions = [];
+    Object.keys(emotes).forEach(id => {
+      emotes[id].forEach(pos => {
+        const [start, end] = pos.split('-').map(Number);
+        emotePositions.push({ id, start, end });
+      });
+    });
+
+    emotePositions.sort((a, b) => b.start - a.start);
+
+    // Replace text with <img> tags
+    emotePositions.forEach(emote => {
+      const url = `https://static-cdn.jtvnw.net/emotes/v2/${emote.id}/default/dark/1.0`;
+      const imgTag = `<img src="${url}" class="chat-emote" style="vertical-align: middle; height: 1.2em; margin: 0 2px;">`;
       
-      // Using the V2 Twitch Emote API for better compatibility
-      const emoteUrl = `https://static-cdn.jtvnw.net/emotes/v2/${id}/default/dark/1.0`;
-      
-      // Added 'crossorigin' and 'loading' attributes to help the browser
-      const emoteHtml = `<img src="${emoteUrl}" class="chat-emote" crossorigin="anonymous" loading="lazy">`;
-      formattedMessage = formattedMessage.replaceAll(emoteName, emoteHtml);
+      const before = messageWithEmotes.substring(0, emote.start);
+      const after = messageWithEmotes.substring(emote.end + 1);
+      messageWithEmotes = before + imgTag + after;
     });
   }
-  
-  textSpan.innerHTML = formattedMessage;
+
+  textSpan.innerHTML = messageWithEmotes;
 
   contentDiv.appendChild(nameSpan);
   contentDiv.appendChild(textSpan);
